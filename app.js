@@ -54,16 +54,16 @@ function truncate(str, max) {
 }
 
 function populateShareCard(data) {
-  const color = VERDICT_COLORS[data.verdict] || "#ededed";
-  const shareCard = document.getElementById("share-card");
+  var color = VERDICT_COLORS[data.verdict] || "#ededed";
+  var shareCard = document.getElementById("share-card");
   shareCard.style.setProperty("--sc-color", color);
 
-  document.getElementById("sc-urge-text").textContent = "\u201c" + truncate(lastSituation, 120) + "\u201d";
+  document.getElementById("sc-urge-text").textContent = "\u201c" + truncate(lastSituation, 100) + "\u201d";
   document.getElementById("sc-verdict").textContent = data.verdict;
   document.getElementById("sc-score").textContent = data.petty_score + " / 10";
   document.getElementById("sc-tea").textContent = getTeaEmoji(data.tea_level);
-  document.getElementById("sc-why").textContent = data.why;
-  document.getElementById("sc-quote").textContent = "\u201c" + data.group_chat_line + "\u201d";
+  document.getElementById("sc-why").textContent = truncate(data.why, 160);
+  document.getElementById("sc-quote").textContent = "\u201c" + truncate(data.group_chat_line, 90) + "\u201d";
 }
 
 function showResult(data) {
