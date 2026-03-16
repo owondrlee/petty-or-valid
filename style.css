@@ -631,3 +631,120 @@ footer {
   letter-spacing: 0.06em;
   text-align: right;
 }
+
+
+/* ─── Image overlay ──────────────────────── */
+
+.image-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: overlay-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.image-overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.image-overlay-content {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  max-width: 420px;
+  width: calc(100% - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: overlay-card-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes overlay-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.overlay-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.15s;
+}
+
+.overlay-close:hover {
+  color: var(--text);
+}
+
+.overlay-heading {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.overlay-preview {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.overlay-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+.overlay-save-btn {
+  background: var(--text);
+  border: none;
+  border-radius: 99px;
+  color: #0c0c0c;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 12px 32px;
+  transition: opacity 0.15s, transform 0.15s;
+  width: 100%;
+}
+
+.overlay-save-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.overlay-save-btn:active {
+  transform: translateY(0);
+  opacity: 0.95;
+}

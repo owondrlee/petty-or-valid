@@ -1,6 +1,10 @@
-// Holds the last verdict so the copy button can format it
 let lastResult = null;
 let lastSituation = "";
+
+// Image overlay state — generation counter prevents stale renders from surfacing
+let overlayTimer = null;
+let preRenderedDataURL = null;
+let overlayGeneration = 0;
 
 // ─── Helpers ──────────────────────────────
 
@@ -65,16 +69,13 @@ function showResult(data) {
   hideAll();
   const card = document.getElementById("result-card");
 
-  // Apply verdict color as a CSS variable — flows through border, badge, quote bar
   const color = VERDICT_COLORS[data.verdict] || "#ededed";
   card.style.setProperty("--verdict-color", color);
 
-  // Verdict badge
   const badge = document.getElementById("verdict-badge");
   badge.textContent = data.verdict;
   badge.dataset.verdict = data.verdict;
 
-  // Petty score bar — reset to 0 first so the transition replays
   const bar = document.getElementById("petty-bar");
   bar.style.width = "0";
   document.getElementById("petty-score-num").textContent = data.petty_score + " / 10";
@@ -82,16 +83,12 @@ function showResult(data) {
     bar.style.width = (data.petty_score / 10 * 100) + "%";
   });
 
-  // Tea level
   document.getElementById("tea-level").textContent = getTeaEmoji(data.tea_level);
-
-  // Text fields
   document.getElementById("why").textContent = data.why;
   document.getElementById("should-act").textContent = data.should_you_act_on_it;
   document.getElementById("next-move").textContent = data.best_next_move;
   document.getElementById("group-chat").textContent = "\u201c" + data.group_chat_line + "\u201d";
 
-  // Reset copy button if a previous verdict was shown
   const copyBtn = document.getElementById("copy-btn");
   copyBtn.textContent = "Copy verdict";
   copyBtn.classList.remove("copied");
@@ -100,7 +97,88 @@ function showResult(data) {
   card.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   populateShareCard(data);
+  scheduleImageOverlay();
 }
+
+// ─── Image overlay ──────────────────────────
+
+function cancelOverlay() {
+  if (overlayTimer) {
+    clearTimeout(overlayTimer);
+    overlayTimer = null;
+  }
+  preRenderedDataURL = null;
+  hideImageOverlay();
+}
+
+function scheduleImageOverlay() {
+  cancelOverlay();
+
+  // Bump generation so any in-flight render from a previous verdict is ignored
+  const gen = ++overlayGeneration;
+
+  // Pre-render after a short delay so the verdict card paints first
+  requestAnimationFrame(function () {
+    html2canvas(document.getElementById("share-card"), {
+      scale: 2,
+      backgroundColor: "#0c0c0c",
+      useCORS: true,
+      logging: false
+    }).then(function (canvas) {
+      // Discard if a newer verdict has been submitted since
+      if (gen !== overlayGeneration) return;
+      preRenderedDataURL = canvas.toDataURL("image/png");
+    });
+  });
+
+  overlayTimer = setTimeout(function () {
+    overlayTimer = null;
+    if (gen !== overlayGeneration) return;
+    if (!preRenderedDataURL || !lastResult) return;
+    showImageOverlay();
+  }, 30000);
+}
+
+function showImageOverlay() {
+  const overlay = document.getElementById("image-overlay");
+  const preview = document.getElementById("overlay-preview");
+  preview.innerHTML = "";
+
+  const img = document.createElement("img");
+  img.src = preRenderedDataURL;
+  img.alt = "Your verdict card";
+  preview.appendChild(img);
+
+  overlay.hidden = false;
+}
+
+function hideImageOverlay() {
+  document.getElementById("image-overlay").hidden = true;
+}
+
+function downloadPreRenderedImage() {
+  if (!preRenderedDataURL || !lastResult) return;
+  var link = document.createElement("a");
+  link.download = "petty-or-valid-" + lastResult.verdict.replace(/\s+/g, "-") + ".png";
+  link.href = preRenderedDataURL;
+  link.click();
+}
+
+// Overlay dismiss: close button, backdrop click, escape key
+document.getElementById("overlay-close").addEventListener("click", hideImageOverlay);
+document.getElementById("image-overlay").querySelector(".image-overlay-backdrop")
+  .addEventListener("click", hideImageOverlay);
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && !document.getElementById("image-overlay").hidden) {
+    hideImageOverlay();
+  }
+});
+
+// Overlay save button
+document.getElementById("overlay-save-btn").addEventListener("click", function () {
+  downloadPreRenderedImage();
+  hideImageOverlay();
+});
 
 // ─── Copy handler ──────────────────────────
 
@@ -111,51 +189,56 @@ document.getElementById("copy-btn").addEventListener("click", function () {
   const text = [
     "petty or valid.",
     "",
-    `verdict: ${d.verdict}`,
-    `petty score: ${d.petty_score}/10`,
-    `tea level: ${getTeaEmoji(d.tea_level)}`,
+    "verdict: " + d.verdict,
+    "petty score: " + d.petty_score + "/10",
+    "tea level: " + getTeaEmoji(d.tea_level),
     "",
-    `why: ${d.why}`,
+    "why: " + d.why,
     "",
-    `should you do it? ${d.should_you_act_on_it}`,
+    "should you do it? " + d.should_you_act_on_it,
     "",
-    `better move: ${d.best_next_move}`,
+    "better move: " + d.best_next_move,
     "",
-    `\u201c${d.group_chat_line}\u201d`
+    "\u201c" + d.group_chat_line + "\u201d"
   ].join("\n");
 
-  navigator.clipboard.writeText(text).then(() => {
-    this.textContent = "Copied";
-    this.classList.add("copied");
-    setTimeout(() => {
-      this.textContent = "Copy verdict";
-      this.classList.remove("copied");
+  var btn = this;
+  navigator.clipboard.writeText(text).then(function () {
+    btn.textContent = "Copied";
+    btn.classList.add("copied");
+    setTimeout(function () {
+      btn.textContent = "Copy verdict";
+      btn.classList.remove("copied");
     }, 2000);
   });
 });
 
-// ─── Save as image handler ─────────────────
+// ─── Save as image handler (reuses pre-rendered image when available) ───
 
 document.getElementById("save-btn").addEventListener("click", function () {
   if (!lastResult) return;
 
-  const btn = this;
-  btn.textContent = "Saving…";
+  // If overlay already pre-rendered the image, reuse it — no delay
+  if (preRenderedDataURL) {
+    downloadPreRenderedImage();
+    var b = this;
+    b.textContent = "Saved";
+    setTimeout(function () { b.textContent = "Save as image"; }, 2000);
+    return;
+  }
+
+  var btn = this;
+  btn.textContent = "Saving\u2026";
   btn.disabled = true;
 
-  const shareCard = document.getElementById("share-card");
-
-  html2canvas(shareCard, {
+  html2canvas(document.getElementById("share-card"), {
     scale: 2,
     backgroundColor: "#0c0c0c",
     useCORS: true,
     logging: false
   }).then(function (canvas) {
-    const link = document.createElement("a");
-    link.download = "petty-or-valid-" + lastResult.verdict.replace(/\s+/g, "-") + ".png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-
+    preRenderedDataURL = canvas.toDataURL("image/png");
+    downloadPreRenderedImage();
     btn.textContent = "Saved";
     setTimeout(function () {
       btn.textContent = "Save as image";
@@ -172,28 +255,30 @@ document.getElementById("save-btn").addEventListener("click", function () {
 document.getElementById("verdict-form").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const situation = document.getElementById("situation").value.trim();
+  var situation = document.getElementById("situation").value.trim();
   if (!situation) return;
   lastSituation = situation;
 
-  const category = document.getElementById("category").value;
-
-  const btn = document.getElementById("submit-btn");
-  const btnText = document.getElementById("btn-text");
-  const btnLoading = document.getElementById("btn-loading");
+  var category = document.getElementById("category").value;
+  var btn = document.getElementById("submit-btn");
+  var btnText = document.getElementById("btn-text");
+  var btnLoading = document.getElementById("btn-loading");
 
   btn.disabled = true;
   btnText.hidden = true;
   btnLoading.hidden = false;
 
+  // Reset overlay state from any previous verdict
+  cancelOverlay();
+
   try {
-    const response = await fetch("/api/verdict", {
+    var response = await fetch("/api/verdict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ situation, category })
+      body: JSON.stringify({ situation: situation, category: category })
     });
 
-    const data = await response.json();
+    var data = await response.json();
 
     if (!response.ok) {
       throw new Error(data.error || "Something went wrong.");
