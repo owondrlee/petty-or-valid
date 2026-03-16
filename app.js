@@ -1,11 +1,12 @@
 let lastResult = null;
 let lastSituation = "";
 
-// Image overlay state — generation counter prevents stale renders from surfacing
-let overlayTimer = null;
+// Image overlay state
 let preRenderedDataURL = null;
 let overlayGeneration = 0;
 let hasVerdict = false;
+let overlayShownForGen = -1; // tracks which generation the overlay already fired for
+let scrollObserver = null;
 
 // ─── Helpers ──────────────────────────────
 
@@ -80,7 +81,7 @@ function showResult(data) {
   const bar = document.getElementById("petty-bar");
   bar.style.width = "0";
   document.getElementById("petty-score-num").textContent = data.petty_score + " / 10";
-  requestAnimationFrame(() => {
+  requestAnimationFrame(function () {
     bar.style.width = (data.petty_score / 10 * 100) + "%";
   });
 
@@ -99,27 +100,27 @@ function showResult(data) {
 
   populateShareCard(data);
   hasVerdict = true;
-  scheduleImageOverlay();
+  startOverlayPipeline();
 }
 
 // ─── Image overlay ──────────────────────────
 
-function cancelOverlay() {
-  if (overlayTimer) {
-    clearTimeout(overlayTimer);
-    overlayTimer = null;
+function resetOverlay() {
+  // Tear down observer
+  if (scrollObserver) {
+    scrollObserver.disconnect();
+    scrollObserver = null;
   }
   preRenderedDataURL = null;
+  hasVerdict = false;
   hideImageOverlay();
 }
 
-function scheduleImageOverlay() {
-  cancelOverlay();
+function startOverlayPipeline() {
+  // Bump generation, discard any in-flight work from previous verdict
+  var gen = ++overlayGeneration;
 
-  // Bump generation so any in-flight render from a previous verdict is ignored
-  const gen = ++overlayGeneration;
-
-  // Pre-render after a short delay so the verdict card paints first
+  // Pre-render the share card in the background after the verdict paints
   requestAnimationFrame(function () {
     html2canvas(document.getElementById("share-card"), {
       scale: 2,
@@ -127,28 +128,57 @@ function scheduleImageOverlay() {
       useCORS: true,
       logging: false
     }).then(function (canvas) {
-      // Discard if a newer verdict has been submitted since
       if (gen !== overlayGeneration) return;
       preRenderedDataURL = canvas.toDataURL("image/png");
     });
   });
 
-  overlayTimer = setTimeout(function () {
-    overlayTimer = null;
+  // Watch the copy-row (last visible element in the verdict card)
+  observeScrollTrigger(gen);
+}
+
+function observeScrollTrigger(gen) {
+  if (scrollObserver) {
+    scrollObserver.disconnect();
+    scrollObserver = null;
+  }
+
+  var target = document.querySelector(".copy-row");
+  if (!target) return;
+
+  scrollObserver = new IntersectionObserver(function (entries) {
+    var entry = entries[0];
+    if (!entry.isIntersecting) return;
     if (gen !== overlayGeneration) return;
-    if (!preRenderedDataURL || !lastResult) return;
-    showImageOverlay();
-  }, 30000);
+    if (!hasVerdict) return;
+    if (overlayShownForGen === gen) return; // already shown for this verdict
+
+    // Small delay so it doesn't pop the instant the row peeks in
+    setTimeout(function () {
+      if (gen !== overlayGeneration) return;
+      if (overlayShownForGen === gen) return;
+      overlayShownForGen = gen;
+      showImageOverlay();
+    }, 600);
+
+    // One-shot: stop observing after triggering
+    scrollObserver.disconnect();
+    scrollObserver = null;
+  }, {
+    threshold: 0.6 // fires when 60% of the copy-row is visible
+  });
+
+  scrollObserver.observe(target);
 }
 
 function showImageOverlay() {
   if (!hasVerdict || !preRenderedDataURL) return;
 
-  const overlay = document.getElementById("image-overlay");
-  const preview = document.getElementById("overlay-preview");
+  var overlay = document.getElementById("image-overlay");
+  var preview = document.getElementById("overlay-preview");
   preview.innerHTML = "";
 
-  const img = document.createElement("img");
+  var img = document.createElement("img");
   img.src = preRenderedDataURL;
   img.alt = "Your verdict card";
   preview.appendChild(img);
@@ -189,8 +219,8 @@ document.getElementById("overlay-save-btn").addEventListener("click", function (
 document.getElementById("copy-btn").addEventListener("click", function () {
   if (!lastResult) return;
 
-  const d = lastResult;
-  const text = [
+  var d = lastResult;
+  var text = [
     "petty or valid.",
     "",
     "verdict: " + d.verdict,
@@ -222,7 +252,6 @@ document.getElementById("copy-btn").addEventListener("click", function () {
 document.getElementById("save-btn").addEventListener("click", function () {
   if (!lastResult) return;
 
-  // If overlay already pre-rendered the image, reuse it — no delay
   if (preRenderedDataURL) {
     downloadPreRenderedImage();
     var b = this;
@@ -272,8 +301,8 @@ document.getElementById("verdict-form").addEventListener("submit", async functio
   btnText.hidden = true;
   btnLoading.hidden = false;
 
-  // Reset overlay state from any previous verdict
-  cancelOverlay();
+  // Full reset of overlay state for the new verdict
+  resetOverlay();
 
   try {
     var response = await fetch("/api/verdict", {

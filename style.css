@@ -524,7 +524,11 @@ footer {
 .sc-urge {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  background: rgba(120, 30, 40, 0.12);
+  border-left: 2px solid rgba(180, 60, 70, 0.4);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 18px;
 }
 
 .sc-urge-label {
@@ -532,15 +536,16 @@ footer {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #3a3a3a;
+  color: #8a4550;
 }
 
 .sc-urge-text {
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-style: italic;
-  color: #666;
-  line-height: 1.5;
+  color: #c9a0a0;
+  line-height: 1.55;
   margin: 0;
+  font-weight: 500;
 }
 
 .sc-verdict {
