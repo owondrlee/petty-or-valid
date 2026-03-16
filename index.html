@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>petty or valid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <div class="page">
+
+    <header>
+      <h1 class="logo">petty or valid<span class="dot">.</span></h1>
+      <p class="tagline">Tell us what you're about to do. We'll tell you if you should.</p>
+    </header>
+
+    <main>
+      <form id="verdict-form">
+
+        <div class="field">
+          <label for="situation">What are you tempted to do?</label>
+          <textarea
+            id="situation"
+            name="situation"
+            rows="5"
+            placeholder="Describe the situation and the move you're considering. Be specific. Vague inputs get vague verdicts."
+            required
+          ></textarea>
+          <p class="privacy-note">Your situation is only used to generate a verdict. Don't paste names, company info, or anything truly sensitive.</p>
+        </div>
+
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" name="category">
+            <option value="work">Work / Coworkers</option>
+            <option value="friendship">Friendship</option>
+            <option value="dating">Dating</option>
+            <option value="relationship">Relationship</option>
+            <option value="family">Family</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <button type="submit" id="submit-btn">
+          <span id="btn-text">Deliver verdict</span>
+          <span id="btn-loading" hidden>Consulting the judges…</span>
+        </button>
+
+      </form>
+
+      <p id="error-message" class="error-message" hidden></p>
+
+      <div id="safe-message" class="safe-message" hidden>
+        <span class="safe-label">heads up</span>
+        <p id="safe-text"></p>
+      </div>
+
+      <div id="result-card" class="result-card" hidden>
+
+        <div class="result-verdict-block">
+          <span class="verdict-eyebrow">the verdict</span>
+          <span id="verdict-badge" class="verdict-badge"></span>
+        </div>
+
+        <div class="result-meta">
+          <div class="meta-item">
+            <span class="meta-label">Petty score</span>
+            <div class="petty-bar-wrap">
+              <div id="petty-bar" class="petty-bar"></div>
+            </div>
+            <span id="petty-score-num" class="score-num"></span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Tea level</span>
+            <span id="tea-level" class="tea-level"></span>
+          </div>
+        </div>
+
+        <div class="result-body">
+          <div class="result-section">
+            <span class="section-label">Why</span>
+            <p id="why"></p>
+          </div>
+          <div class="result-section">
+            <span class="section-label">Should you do it?</span>
+            <p id="should-act"></p>
+          </div>
+          <div class="result-section">
+            <span class="section-label">Better move</span>
+            <p id="next-move"></p>
+          </div>
+          <div class="result-section group-chat-section">
+            <span class="section-label">Group chat line</span>
+            <p id="group-chat"></p>
+          </div>
+          <div class="copy-row">
+            <button id="save-btn" class="copy-btn" type="button">Save as image</button>
+            <button id="copy-btn" class="copy-btn" type="button">Copy verdict</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <footer>
+      <p>Not a therapist. Not HR. Just honest.</p>
+    </footer>
+
+  </div>
+
+  <!-- Hidden share card — rendered to PNG on "Save as image" -->
+  <div id="share-card" aria-hidden="true">
+    <div class="sc-top">
+      <span class="sc-app">petty or valid<span class="sc-dot">.</span></span>
+      <div class="sc-urge">
+        <span class="sc-urge-label">the urge</span>
+        <p id="sc-urge-text" class="sc-urge-text"></p>
+      </div>
+      <span id="sc-verdict" class="sc-verdict"></span>
+    </div>
+    <div class="sc-divider"></div>
+    <div class="sc-meta-row">
+      <div class="sc-meta-item">
+        <span class="sc-meta-label">petty score</span>
+        <span id="sc-score" class="sc-meta-value"></span>
+      </div>
+      <div class="sc-meta-item">
+        <span class="sc-meta-label">tea level</span>
+        <span id="sc-tea" class="sc-meta-value"></span>
+      </div>
+    </div>
+    <div class="sc-divider"></div>
+    <div class="sc-why">
+      <span class="sc-label">why</span>
+      <p id="sc-why"></p>
+    </div>
+    <div class="sc-divider"></div>
+    <div class="sc-quote">
+      <p id="sc-quote"></p>
+    </div>
+    <div class="sc-footer">petty-or-valid.app</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
