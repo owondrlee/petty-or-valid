@@ -5,6 +5,7 @@ let lastSituation = "";
 let overlayTimer = null;
 let preRenderedDataURL = null;
 let overlayGeneration = 0;
+let hasVerdict = false;
 
 // ─── Helpers ──────────────────────────────
 
@@ -97,6 +98,7 @@ function showResult(data) {
   card.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
   populateShareCard(data);
+  hasVerdict = true;
   scheduleImageOverlay();
 }
 
@@ -140,6 +142,8 @@ function scheduleImageOverlay() {
 }
 
 function showImageOverlay() {
+  if (!hasVerdict || !preRenderedDataURL) return;
+
   const overlay = document.getElementById("image-overlay");
   const preview = document.getElementById("overlay-preview");
   preview.innerHTML = "";

@@ -645,6 +645,10 @@ footer {
   animation: overlay-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.image-overlay[hidden] {
+  display: none;
+}
+
 @keyframes overlay-in {
   from { opacity: 0; }
   to   { opacity: 1; }
