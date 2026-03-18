@@ -57,18 +57,26 @@ function populateShareCard(data) {
   var color = VERDICT_COLORS[data.verdict] || "#ededed";
   document.getElementById("share-card").style.setProperty("--sc-color", color);
 
+  // B) Confession — user's words, quoted
   document.getElementById("sc-confession-text").textContent =
-    "\u201c" + truncate(lastSituation, 100) + "\u201d";
+    "\u201c" + truncate(lastSituation, 90) + "\u201d";
 
-  // Verdict as a sentence: capitalize verdict + first sentence of why
-  var v = data.verdict.charAt(0).toUpperCase() + data.verdict.slice(1);
-  var firstSentence = data.why.split(/(?<=\.)\s/)[0] || data.why;
-  document.getElementById("sc-verdict-text").textContent =
-    v + ". " + truncate(firstSentence, 120);
+  // C) Verdict headline
+  document.getElementById("sc-headline").textContent = data.verdict + ".";
 
-  document.getElementById("sc-move-text").textContent = truncate(data.best_next_move, 100);
-  document.getElementById("sc-score").textContent = data.petty_score + "/10 petty";
-  document.getElementById("sc-tea").textContent = data.tea_level;
+  // D) Diagnosis — the "why" explanation
+  document.getElementById("sc-diagnosis").textContent = data.why;
+
+  // E) Better move
+  document.getElementById("sc-move-text").textContent = data.best_next_move;
+
+  // F) Closing dagger
+  document.getElementById("sc-dagger-text").textContent =
+    "\u201c" + data.group_chat_line + "\u201d";
+
+  // G) Footer stats
+  document.getElementById("sc-stats").textContent =
+    data.petty_score + "/10 petty \u00b7 " + data.tea_level;
 }
 
 function showResult(data) {
