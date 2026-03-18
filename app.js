@@ -55,12 +55,16 @@ function truncate(str, max) {
 
 function populateShareCard(data) {
   var color = VERDICT_COLORS[data.verdict] || "#ededed";
-  var shareCard = document.getElementById("share-card");
-  shareCard.style.setProperty("--sc-color", color);
+  document.getElementById("share-card").style.setProperty("--sc-color", color);
 
-  document.getElementById("sc-urge-text").textContent = "\u201c" + truncate(lastSituation, 100) + "\u201d";
-  document.getElementById("sc-verdict").textContent = data.verdict;
-  document.getElementById("sc-why").textContent = truncate(data.why, 150);
+  document.getElementById("sc-confession-text").textContent =
+    "\u201c" + truncate(lastSituation, 100) + "\u201d";
+
+  // Verdict as a sentence: "Petty but valid — {why}"
+  var verdictCap = data.verdict.charAt(0).toUpperCase() + data.verdict.slice(1);
+  var why = truncate(data.why, 150);
+  document.getElementById("sc-verdict-text").textContent = verdictCap + " \u2014 " + why;
+
   document.getElementById("sc-move-text").textContent = truncate(data.best_next_move, 120);
   document.getElementById("sc-score").textContent = data.petty_score + "/10 petty";
   document.getElementById("sc-tea").textContent = data.tea_level;

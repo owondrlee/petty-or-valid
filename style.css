@@ -499,144 +499,99 @@ footer {
   color: #ededed;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  padding: 40px 42px 30px;
+  padding: 38px 40px 28px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 
-/* Brand */
-.sc-app {
-  font-size: 0.68rem;
-  font-weight: 600;
+.sc-brand {
+  font-size: 0.7rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #444;
-  margin-bottom: 20px;
+  color: #4a4a4a;
+  flex-shrink: 0;
+  margin-bottom: 24px;
+}
+
+.sc-dot { color: #c084fc; }
+
+/* Confession */
+.sc-confession {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(120, 30, 40, 0.13);
+  border-left: 2px solid rgba(170, 55, 65, 0.4);
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin-bottom: 28px;
   flex-shrink: 0;
 }
 
-.sc-dot {
-  color: #c084fc;
+.sc-confession-text {
+  font-size: 0.88rem;
+  font-style: italic;
+  font-weight: 500;
+  color: #d4a8a8;
+  line-height: 1.55;
+  margin: 0;
 }
 
-/* Confession */
-.sc-urge {
+/* Reusable label */
+.sc-label {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+/* Content sections */
+.sc-section {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 7px;
-  background: rgba(120, 30, 40, 0.14);
-  border-left: 2px solid rgba(180, 60, 70, 0.45);
-  border-radius: 0 8px 8px 0;
-  padding: 14px 18px;
-  margin-bottom: 24px;
-  flex-shrink: 0;
 }
 
-.sc-urge-label {
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #8a4550;
-}
+.sc-verdict-section { margin-bottom: 24px; }
+.sc-move-section    { flex: 1; min-height: 0; }
 
-.sc-urge-text {
-  font-size: 0.92rem;
-  font-style: italic;
-  color: #d4a8a8;
-  line-height: 1.5;
-  margin: 0;
-  font-weight: 500;
-}
-
-/* Shared section label */
-.sc-section-label {
-  display: block;
-  font-size: 0.58rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-/* Verdict block */
-.sc-verdict-block {
-  margin-bottom: 22px;
-  flex-shrink: 0;
-}
-
-.sc-verdict {
-  display: block;
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-style: italic;
+.sc-body {
+  font-size: 0.88rem;
   font-weight: 400;
-  font-size: 2.4rem;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-  color: var(--sc-color, #ededed);
-  margin-bottom: 10px;
-}
-
-.sc-verdict-why {
-  font-size: 0.82rem;
-  line-height: 1.6;
-  color: #999;
-  margin: 0;
-}
-
-/* Better move */
-.sc-move {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.sc-move-text {
-  font-size: 0.84rem;
   line-height: 1.6;
   color: #c8c8c8;
   margin: 0;
-  font-weight: 500;
 }
 
-/* Bottom bar: stats + footer on one line */
-.sc-bottom {
+.sc-verdict-section .sc-label { color: var(--sc-color, #555); }
+
+/* Footer row */
+.sc-footer-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 20px;
   border-top: 1px solid #1a1a1a;
-  padding-top: 16px;
 }
 
-.sc-stats {
-  display: flex;
-  align-items: center;
-  gap: 0;
-}
-
-.sc-stat {
-  font-size: 0.72rem;
+.sc-footer-stat {
+  font-size: 0.68rem;
   font-weight: 500;
-  color: #666;
+  color: #555;
   letter-spacing: 0.02em;
 }
 
-.sc-stat-dot {
+.sc-footer-dot {
   width: 3px;
   height: 3px;
   border-radius: 50%;
   background: #333;
-  margin: 0 12px;
-}
-
-.sc-footer {
-  font-size: 0.6rem;
-  color: #2a2a2a;
-  letter-spacing: 0.06em;
+  margin: 0 10px;
 }
 
 
