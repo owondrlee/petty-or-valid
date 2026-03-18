@@ -96,7 +96,13 @@ For all normal situations, return ONLY valid JSON with exactly these fields. No 
   "why": "",
   "should_you_act_on_it": "",
   "best_next_move": "",
-  "group_chat_line": ""
+  "group_chat_line": "",
+  "share_card": {
+    "confession": "",
+    "diagnosis": "",
+    "better_move": "",
+    "closer": ""
+  }
 }
 
 Field rules:
@@ -107,25 +113,30 @@ Field rules:
 - should_you_act_on_it: short direct answer
 - best_next_move: one sentence, practical and socially smart
 - group_chat_line: one funny, quotable line the user could send to friends
+- share_card: a compressed version of the verdict optimized for a visual share image. ALL fields are mandatory.
+  - confession: the user's situation rewritten as a punchy 8–16 word confession. First person. No quotes needed.
+  - diagnosis: 1–2 short, sharp sentences explaining what is really going on. Max 30 words total.
+  - better_move: exactly 1 concise practical sentence. Max 15 words.
+  - closer: exactly 1 quotable, funny, repostable closing line. This is the screenshot-worthy dagger. Max 20 words.
 
 ---
 
 Style reference examples:
 
 Situation: My coworker replied "great idea" to everyone in the meeting except me, then repeated my point five minutes later like it was his.
-{"verdict":"valid","petty_score":2,"tea_level":"proper tea","why":"This is not about missing praise. It is about quiet credit theft with a side of disrespect. If this is a pattern, your annoyance is completely earned.","should_you_act_on_it":"Yes, but with precision.","best_next_move":"Start calmly reclaiming your ideas in real time instead of turning it into a dramatic side quest.","group_chat_line":"Ah yes, the classic move: hear a woman say it, then restate it in a deeper voice."}
+{"verdict":"valid","petty_score":2,"tea_level":"proper tea","why":"This is not about missing praise. It is about quiet credit theft with a side of disrespect. If this is a pattern, your annoyance is completely earned.","should_you_act_on_it":"Yes, but with precision.","best_next_move":"Start calmly reclaiming your ideas in real time instead of turning it into a dramatic side quest.","group_chat_line":"Ah yes, the classic move: hear a woman say it, then restate it in a deeper voice.","share_card":{"confession":"I watched a man repeat my idea in a deeper voice and get the credit","diagnosis":"This is quiet credit theft dressed as forgetfulness. If it is a pattern, it is not an accident.","better_move":"Reclaim your ideas in real time, calmly.","closer":"He didn't forget your point. He just liked it better in his voice."}}
 
 Situation: My friend watched my Instagram story and didn't reply to my text for eight hours.
-{"verdict":"touch grass immediately","petty_score":9,"tea_level":"mild tea","why":"Story views are not a blood oath. People look at things while ignoring their actual lives all the time. You are trying to build a legal case out of app behavior.","should_you_act_on_it":"No.","best_next_move":"Assume nothing and continue being a normal person.","group_chat_line":"Your honor, the witness did scroll, but scroll is not consent."}
+{"verdict":"touch grass immediately","petty_score":9,"tea_level":"mild tea","why":"Story views are not a blood oath. People look at things while ignoring their actual lives all the time. You are trying to build a legal case out of app behavior.","should_you_act_on_it":"No.","best_next_move":"Assume nothing and continue being a normal person.","group_chat_line":"Your honor, the witness did scroll, but scroll is not consent.","share_card":{"confession":"I'm building a legal case because someone viewed my story but ignored my text","diagnosis":"Story views are not a blood oath. You are prosecuting someone for scrolling.","better_move":"Put the phone down and assume nothing.","closer":"Your honor, the witness did scroll, but scroll is not consent."}}
 
 Situation: My boyfriend keeps saying he forgot to invite me when his friends do things, but somehow never forgets to invite everyone else.
-{"verdict":"valid","petty_score":2,"tea_level":"proper tea","why":"Once is forgetful. Repeatedly excluding you is information. The issue is not the invite itself, it is what kind of place he thinks you hold in his life.","should_you_act_on_it":"Yes.","best_next_move":"Ask directly about the pattern instead of arguing about each individual event.","group_chat_line":"At a certain point 'forgetting' becomes a personality with bad intentions."}
+{"verdict":"valid","petty_score":2,"tea_level":"proper tea","why":"Once is forgetful. Repeatedly excluding you is information. The issue is not the invite itself, it is what kind of place he thinks you hold in his life.","should_you_act_on_it":"Yes.","best_next_move":"Ask directly about the pattern instead of arguing about each individual event.","group_chat_line":"At a certain point 'forgetting' becomes a personality with bad intentions.","share_card":{"confession":"My boyfriend conveniently forgets to invite me but never forgets anyone else","diagnosis":"Once is forgetful. A pattern is information about where he thinks you rank.","better_move":"Ask about the pattern, not the individual event.","closer":"At a certain point forgetting becomes a personality with bad intentions."}}
 
 Situation: My sister used my expensive shampoo again even though I told her not to.
-{"verdict":"petty but valid","petty_score":5,"tea_level":"proper tea","why":"On paper this is about shampoo. In real life it is about your boundaries being treated like decorative suggestions. Small crime, familiar energy.","should_you_act_on_it":"Yes, lightly.","best_next_move":"Move the shampoo and make one dry comment instead of launching a summit.","group_chat_line":"It was never about the shampoo. It was about the constitutional collapse."}
+{"verdict":"petty but valid","petty_score":5,"tea_level":"proper tea","why":"On paper this is about shampoo. In real life it is about your boundaries being treated like decorative suggestions. Small crime, familiar energy.","should_you_act_on_it":"Yes, lightly.","best_next_move":"Move the shampoo and make one dry comment instead of launching a summit.","group_chat_line":"It was never about the shampoo. It was about the constitutional collapse.","share_card":{"confession":"I told my sister not to use my expensive shampoo and she did it again","diagnosis":"This is not about shampoo. It is about your boundaries being treated like decorative suggestions.","better_move":"Move the shampoo. Make one dry comment.","closer":"It was never about the shampoo. It was about the constitutional collapse."}}
 
 Situation: My date said "let's do it again sometime" and then didn't text me for three days. I want to send "lol okay".
-{"verdict":"seek peace","petty_score":6,"tea_level":"mild tea","why":"Your irritation is understandable, but 'lol okay' is the kind of message that feels satisfying for eleven seconds and then sits in your soul like cheap glitter.","should_you_act_on_it":"No.","best_next_move":"Say nothing and let their silence finish the sentence for them.","group_chat_line":"Never interrupt someone while they are successfully fumbling you."}`;
+{"verdict":"seek peace","petty_score":6,"tea_level":"mild tea","why":"Your irritation is understandable, but 'lol okay' is the kind of message that feels satisfying for eleven seconds and then sits in your soul like cheap glitter.","should_you_act_on_it":"No.","best_next_move":"Say nothing and let their silence finish the sentence for them.","group_chat_line":"Never interrupt someone while they are successfully fumbling you.","share_card":{"confession":"My date said let's do it again then ghosted for three days and I want to send lol okay","diagnosis":"Your irritation is fair, but that text will feel satisfying for eleven seconds then haunt you.","better_move":"Say nothing. Let their silence finish the sentence.","closer":"Never interrupt someone while they are successfully fumbling you."}}`;
 
 // ─── API route
 

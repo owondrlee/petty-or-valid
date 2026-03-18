@@ -57,25 +57,32 @@ function populateShareCard(data) {
   var color = VERDICT_COLORS[data.verdict] || "#ededed";
   document.getElementById("share-card").style.setProperty("--sc-color", color);
 
-  // B) Confession — user's words, quoted
-  document.getElementById("sc-confession-text").textContent =
-    "\u201c" + truncate(lastSituation, 90) + "\u201d";
+  // Use dedicated share_card copy if the API returned it, otherwise fall back
+  var sc = data.share_card || {};
 
-  // C) Verdict headline
-  document.getElementById("sc-headline").textContent = data.verdict + ".";
+  // 2. Confession
+  var confession = sc.confession || truncate(lastSituation, 80);
+  document.getElementById("share-confession-text").textContent =
+    "\u201c" + confession + "\u201d";
 
-  // D) Diagnosis — the "why" explanation
-  document.getElementById("sc-diagnosis").textContent = data.why;
+  // 3. Verdict headline
+  document.getElementById("share-headline").textContent = data.verdict + ".";
 
-  // E) Better move
-  document.getElementById("sc-move-text").textContent = data.best_next_move;
+  // 4. Diagnosis
+  document.getElementById("share-diagnosis").textContent =
+    sc.diagnosis || data.why;
 
-  // F) Closing dagger
-  document.getElementById("sc-dagger-text").textContent =
-    "\u201c" + data.group_chat_line + "\u201d";
+  // 5. Better move
+  document.getElementById("share-better-move-text").textContent =
+    sc.better_move || data.best_next_move;
 
-  // G) Footer stats
-  document.getElementById("sc-stats").textContent =
+  // 6. Closing dagger
+  var closer = sc.closer || data.group_chat_line;
+  document.getElementById("share-closer-text").textContent =
+    "\u201c" + closer + "\u201d";
+
+  // 7. Footer
+  document.getElementById("share-footer-stats").textContent =
     data.petty_score + "/10 petty \u00b7 " + data.tea_level;
 }
 
@@ -137,7 +144,7 @@ function startOverlayPipeline() {
   requestAnimationFrame(function () {
     html2canvas(document.getElementById("share-card"), {
       scale: 2,
-      backgroundColor: "#0c0c0c",
+      backgroundColor: "#0a0a0a",
       useCORS: true,
       logging: false
     }).then(function (canvas) {
@@ -279,7 +286,7 @@ document.getElementById("save-btn").addEventListener("click", function () {
 
   html2canvas(document.getElementById("share-card"), {
     scale: 2,
-    backgroundColor: "#0c0c0c",
+    backgroundColor: "#0a0a0a",
     useCORS: true,
     logging: false
   }).then(function (canvas) {
