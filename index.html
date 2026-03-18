@@ -113,32 +113,37 @@
 
   </div>
 
-  <!-- Hidden share card — rendered to 1080x1080 PNG -->
-  <div id="share-card" class="share-card" aria-hidden="true">
-    <span class="share-brand">petty or valid<span class="share-brand-dot">.</span></span>
-
-    <div class="share-confession">
-      <span class="share-confession-label">the confession</span>
-      <p id="share-confession-text" class="share-confession-text"></p>
+  <!-- Hidden share card — rendered to PNG on "Save as image" -->
+  <div id="share-card" aria-hidden="true">
+    <div class="sc-top">
+      <span class="sc-app">petty or valid<span class="sc-dot">.</span></span>
+      <div class="sc-urge">
+        <span class="sc-urge-label">the urge</span>
+        <p id="sc-urge-text" class="sc-urge-text"></p>
+      </div>
+      <span id="sc-verdict" class="sc-verdict"></span>
     </div>
-
-    <span id="share-headline" class="share-headline"></span>
-
-    <p id="share-diagnosis" class="share-diagnosis"></p>
-
-    <div class="share-better-move">
-      <span class="share-better-move-label">better move</span>
-      <p id="share-better-move-text" class="share-better-move-text"></p>
+    <div class="sc-divider"></div>
+    <div class="sc-meta-row">
+      <div class="sc-meta-item">
+        <span class="sc-meta-label">petty score</span>
+        <span id="sc-score" class="sc-meta-value"></span>
+      </div>
+      <div class="sc-meta-item">
+        <span class="sc-meta-label">tea level</span>
+        <span id="sc-tea" class="sc-meta-value"></span>
+      </div>
     </div>
-
-    <div class="share-closer">
-      <p id="share-closer-text"></p>
+    <div class="sc-divider"></div>
+    <div class="sc-why">
+      <span class="sc-label">why</span>
+      <p id="sc-why"></p>
     </div>
-
-    <div class="share-footer">
-      <span id="share-footer-stats"></span>
-      <span>petty-or-valid.app</span>
+    <div class="sc-divider"></div>
+    <div class="sc-quote">
+      <p id="sc-quote"></p>
     </div>
+    <div class="sc-footer">petty-or-valid.app</div>
   </div>
 
   <!-- Image overlay -->

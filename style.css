@@ -487,147 +487,149 @@ footer {
 }
 
 
-/* ─── Share card (off-screen, rendered to 1080x1080 PNG at scale 2) ── */
+/* ─── Share card (off-screen, rendered to PNG) ── */
 
-.share-card {
+#share-card {
   position: fixed;
   left: -99999px;
   top: 0;
   width: 540px;
-  height: 540px;
-  background: #0a0a0a;
+  background: #0c0c0c;
   color: #ededed;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  padding: 32px;
+  padding: 48px 44px 36px;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 
-/* ── 1. Brand ── */
-.share-brand {
-  font-size: 11px;
-  font-weight: 700;
+.sc-top {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.sc-app {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5a5a5a;
+}
+
+.sc-dot {
+  color: #c084fc;
+}
+
+.sc-urge {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sc-urge-label {
+  font-size: 0.6rem;
+  font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #3a3a3a;
-  flex-shrink: 0;
-  margin-bottom: 16px;
 }
 
-.share-brand-dot { color: #c084fc; }
-
-/* ── 2. Confession ── */
-.share-confession {
-  background: rgba(100, 20, 30, 0.18);
-  border-left: 3px solid rgba(170, 50, 60, 0.5);
-  border-radius: 0 8px 8px 0;
-  padding: 14px 18px 16px;
-  margin-bottom: 24px;
-  flex-shrink: 0;
-}
-
-.share-confession-label {
-  display: block;
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #7a3a44;
-  margin-bottom: 6px;
-}
-
-.share-confession-text {
-  font-size: 15px;
+.sc-urge-text {
+  font-size: 0.82rem;
   font-style: italic;
-  font-weight: 500;
-  color: #d4a8a8;
-  line-height: 1.45;
-  margin: 0;
-}
-
-/* ── 3. Verdict headline ── */
-.share-headline {
-  display: block;
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 40px;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  color: var(--sc-color, #ededed);
-  margin-bottom: 10px;
-  flex-shrink: 0;
-}
-
-/* ── 4. Diagnosis ── */
-.share-diagnosis {
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.55;
-  color: #888;
-  margin: 0 0 20px 0;
-  max-width: 420px;
-  flex-shrink: 0;
-}
-
-/* ── 5. Better move ── */
-.share-better-move {
-  margin-bottom: 20px;
-  flex-shrink: 0;
-}
-
-.share-better-move-label {
-  display: block;
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #444;
-  margin-bottom: 5px;
-}
-
-.share-better-move-text {
-  font-size: 13px;
-  font-weight: 400;
+  color: #666;
   line-height: 1.5;
-  color: #aaa;
   margin: 0;
 }
 
-/* ── 6. Closing dagger ── */
-.share-closer {
-  border-left: 3px solid var(--sc-color, #ededed);
-  padding: 2px 0 2px 16px;
-  margin-top: auto;
-  flex-shrink: 0;
-}
-
-.share-closer p {
+.sc-verdict {
   font-family: 'DM Serif Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: 15px;
-  line-height: 1.45;
-  color: #ddd;
+  font-size: 3.2rem;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--sc-color, #ededed);
+}
+
+.sc-divider {
+  height: 1px;
+  background: #1e1e1e;
+  margin-bottom: 22px;
+}
+
+.sc-meta-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 24px;
+}
+
+.sc-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sc-meta-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5a5a5a;
+}
+
+.sc-meta-value {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #ededed;
+}
+
+.sc-why {
+  margin-bottom: 24px;
+}
+
+.sc-label {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5a5a5a;
+  margin-bottom: 8px;
+}
+
+.sc-why p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #d0d0d0;
+  margin: 0;
+}
+
+.sc-quote {
+  background: #111;
+  border-left: 2px solid var(--sc-color, #ededed);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+  border-radius: 0 6px 6px 0;
+}
+
+.sc-quote p {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: #ededed;
   margin: 0;
   letter-spacing: -0.01em;
 }
 
-/* ── 7. Footer ── */
-.share-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-  border-top: 1px solid #1a1a1a;
-  margin-top: 16px;
-  padding-top: 12px;
-  font-size: 9.5px;
-  font-weight: 500;
-  letter-spacing: 0.03em;
+.sc-footer {
+  font-size: 0.65rem;
   color: #333;
+  letter-spacing: 0.06em;
+  text-align: right;
 }
 
 
@@ -715,17 +717,15 @@ footer {
 
 .overlay-preview {
   width: 100%;
-  aspect-ratio: 1;
   border-radius: 8px;
   overflow: hidden;
 }
 
 .overlay-preview img {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: block;
   border-radius: 8px;
-  object-fit: cover;
 }
 
 .overlay-save-btn {
