@@ -60,12 +60,13 @@ function populateShareCard(data) {
   document.getElementById("sc-confession-text").textContent =
     "\u201c" + truncate(lastSituation, 100) + "\u201d";
 
-  // Verdict as a sentence: "Petty but valid — {why}"
-  var verdictCap = data.verdict.charAt(0).toUpperCase() + data.verdict.slice(1);
-  var why = truncate(data.why, 150);
-  document.getElementById("sc-verdict-text").textContent = verdictCap + " \u2014 " + why;
+  // Verdict as a sentence: capitalize verdict + first sentence of why
+  var v = data.verdict.charAt(0).toUpperCase() + data.verdict.slice(1);
+  var firstSentence = data.why.split(/(?<=\.)\s/)[0] || data.why;
+  document.getElementById("sc-verdict-text").textContent =
+    v + ". " + truncate(firstSentence, 120);
 
-  document.getElementById("sc-move-text").textContent = truncate(data.best_next_move, 120);
+  document.getElementById("sc-move-text").textContent = truncate(data.best_next_move, 100);
   document.getElementById("sc-score").textContent = data.petty_score + "/10 petty";
   document.getElementById("sc-tea").textContent = data.tea_level;
 }
