@@ -89,6 +89,28 @@ function getShareWatermark(verdict) {
   return verdict.toUpperCase();
 }
 
+function getShareDensity(share) {
+  if (
+    share.confession.length > 66 ||
+    share.diagnosis.length > 82 ||
+    share.betterMove.length > 42 ||
+    share.closer.length > 82
+  ) {
+    return "tight";
+  }
+
+  if (
+    share.confession.length > 52 ||
+    share.diagnosis.length > 62 ||
+    share.betterMove.length > 30 ||
+    share.closer.length > 62
+  ) {
+    return "compact";
+  }
+
+  return "default";
+}
+
 function populateShareCard(data) {
   var color = VERDICT_COLORS[data.verdict] || "#ededed";
   var rgb = VERDICT_RGB[data.verdict] || "237, 237, 237";
@@ -96,6 +118,7 @@ function populateShareCard(data) {
   var shareCard = document.getElementById("share-card");
   shareCard.style.setProperty("--sc-color", color);
   shareCard.style.setProperty("--sc-rgb", rgb);
+  shareCard.dataset.density = getShareDensity(share);
 
   document.getElementById("sc-case").textContent = getShareCaseNumber((lastSituation || "") + data.verdict);
   document.getElementById("sc-watermark").textContent = getShareWatermark(data.verdict);
@@ -104,8 +127,6 @@ function populateShareCard(data) {
   document.getElementById("sc-diagnosis").textContent = share.diagnosis;
   document.getElementById("sc-move-text").textContent = share.betterMove;
   document.getElementById("sc-closer").textContent = "\u201c" + share.closer + "\u201d";
-  document.getElementById("sc-score").textContent = data.petty_score + " / 10";
-  document.getElementById("sc-tea").textContent = data.tea_level;
 }
 
 function showResult(data) {
