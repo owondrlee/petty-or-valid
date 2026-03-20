@@ -115,35 +115,40 @@
 
   <!-- Hidden share card — rendered to PNG on "Save as image" -->
   <div id="share-card" aria-hidden="true">
-    <div class="sc-top">
-      <span class="sc-app">petty or valid<span class="sc-dot">.</span></span>
-      <div class="sc-urge">
-        <span class="sc-urge-label">the urge</span>
-        <p id="sc-urge-text" class="sc-urge-text"></p>
+    <div class="sc-shell">
+      <div class="sc-grid" aria-hidden="true"></div>
+      <div class="sc-header">
+        <span class="sc-app">petty or valid<span class="sc-dot">.</span></span>
+        <span id="sc-case" class="sc-case"></span>
       </div>
-      <span id="sc-verdict" class="sc-verdict"></span>
-    </div>
-    <div class="sc-divider"></div>
-    <div class="sc-meta-row">
-      <div class="sc-meta-item">
-        <span class="sc-meta-label">petty score</span>
-        <span id="sc-score" class="sc-meta-value"></span>
+      <div id="sc-watermark" class="sc-watermark" aria-hidden="true"></div>
+      <div class="sc-main">
+        <p id="sc-confession" class="sc-confession"></p>
+        <div class="sc-verdict-row">
+          <span class="sc-ruling">the ruling</span>
+          <span id="sc-verdict" class="sc-verdict"></span>
+        </div>
+        <p id="sc-diagnosis" class="sc-diagnosis"></p>
+        <div class="sc-move">
+          <span class="sc-label">better move</span>
+          <p id="sc-move-text" class="sc-move-text"></p>
+        </div>
       </div>
-      <div class="sc-meta-item">
-        <span class="sc-meta-label">tea level</span>
-        <span id="sc-tea" class="sc-meta-value"></span>
+      <div class="sc-closer-wrap">
+        <p id="sc-closer" class="sc-closer"></p>
+      </div>
+      <div class="sc-footer">
+        <div class="sc-footer-chip">
+          <span class="sc-chip-label">petty score</span>
+          <span id="sc-score" class="sc-chip-value"></span>
+        </div>
+        <div class="sc-footer-chip">
+          <span class="sc-chip-label">tea level</span>
+          <span id="sc-tea" class="sc-chip-value"></span>
+        </div>
+        <span class="sc-site">petty-or-valid.app</span>
       </div>
     </div>
-    <div class="sc-divider"></div>
-    <div class="sc-why">
-      <span class="sc-label">why</span>
-      <p id="sc-why"></p>
-    </div>
-    <div class="sc-divider"></div>
-    <div class="sc-quote">
-      <p id="sc-quote"></p>
-    </div>
-    <div class="sc-footer">petty-or-valid.app</div>
   </div>
 
   <!-- Image overlay -->

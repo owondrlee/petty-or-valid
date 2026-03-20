@@ -24,6 +24,14 @@ const VERDICT_COLORS = {
   "touch grass immediately": "#fbbf24"
 };
 
+const VERDICT_RGB = {
+  "valid": "74, 222, 128",
+  "petty": "251, 146, 60",
+  "petty but valid": "192, 132, 252",
+  "seek peace": "96, 165, 250",
+  "touch grass immediately": "251, 191, 36"
+};
+
 // ─── Display helpers ──────────────────────
 
 function hideAll() {
@@ -53,17 +61,51 @@ function truncate(str, max) {
   return str.slice(0, cut > 0 ? cut : max) + "\u2026";
 }
 
+function getShareFields(data) {
+  var share = data.share_card || {};
+
+  return {
+    confession: truncate(share.confession || lastSituation || "", 90),
+    diagnosis: truncate(share.diagnosis || data.why || "", 96),
+    betterMove: truncate(share.better_move || data.best_next_move || "", 58),
+    closer: truncate(share.closer || data.group_chat_line || "", 100)
+  };
+}
+
+function getShareCaseNumber(seed) {
+  var hash = 0;
+
+  for (var i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) % 1000;
+  }
+
+  return "CASE " + String(hash).padStart(3, "0");
+}
+
+function getShareWatermark(verdict) {
+  if (verdict === "petty but valid") return "PETTY\nVALID";
+  if (verdict === "touch grass immediately") return "TOUCH\nGRASS";
+  if (verdict === "seek peace") return "SEEK\nPEACE";
+  return verdict.toUpperCase();
+}
+
 function populateShareCard(data) {
   var color = VERDICT_COLORS[data.verdict] || "#ededed";
+  var rgb = VERDICT_RGB[data.verdict] || "237, 237, 237";
+  var share = getShareFields(data);
   var shareCard = document.getElementById("share-card");
   shareCard.style.setProperty("--sc-color", color);
+  shareCard.style.setProperty("--sc-rgb", rgb);
 
-  document.getElementById("sc-urge-text").textContent = "\u201c" + truncate(lastSituation, 120) + "\u201d";
+  document.getElementById("sc-case").textContent = getShareCaseNumber((lastSituation || "") + data.verdict);
+  document.getElementById("sc-watermark").textContent = getShareWatermark(data.verdict);
+  document.getElementById("sc-confession").textContent = share.confession;
   document.getElementById("sc-verdict").textContent = data.verdict;
+  document.getElementById("sc-diagnosis").textContent = share.diagnosis;
+  document.getElementById("sc-move-text").textContent = share.betterMove;
+  document.getElementById("sc-closer").textContent = "\u201c" + share.closer + "\u201d";
   document.getElementById("sc-score").textContent = data.petty_score + " / 10";
-  document.getElementById("sc-tea").textContent = getTeaEmoji(data.tea_level);
-  document.getElementById("sc-why").textContent = data.why;
-  document.getElementById("sc-quote").textContent = "\u201c" + data.group_chat_line + "\u201d";
+  document.getElementById("sc-tea").textContent = data.tea_level;
 }
 
 function showResult(data) {

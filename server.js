@@ -113,11 +113,12 @@ Field rules:
 - should_you_act_on_it: short direct answer
 - best_next_move: one sentence, practical and socially smart
 - group_chat_line: one funny, quotable line the user could send to friends
-- share_card: a compressed version of the verdict optimized for a visual share image. ALL fields are mandatory.
-  - confession: the user's situation rewritten as a punchy 8–16 word confession. First person. No quotes needed.
-  - diagnosis: 1–2 short, sharp sentences explaining what is really going on. Max 30 words total.
-  - better_move: exactly 1 concise practical sentence. Max 15 words.
-  - closer: exactly 1 quotable, funny, repostable closing line. This is the screenshot-worthy dagger. Max 20 words.
+- share_card: a compressed version of the verdict optimized for a bold editorial social card. ALL fields are mandatory.
+  - confession: the user's situation rewritten as a punchy 8–14 word confession. First person. No quotes needed. Specific enough to feel juicy, generic enough to feel shareable.
+  - diagnosis: exactly 1 sharp sentence. Prefer 6–10 words. Never more than 18 words. No hedging.
+  - better_move: exactly 1 concise practical sentence. Prefer 3–8 words. Never more than 12 words.
+  - closer: exactly 1 quotable, funny, repostable closing line. This is the screenshot-worthy dagger. Prefer 8–14 words. Never more than 18 words. It must stand alone on a graphic.
+  - avoid names, ages, office jargon, and overly specific logistics in share_card copy
 
 ---
 

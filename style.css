@@ -490,146 +490,243 @@ footer {
 /* ─── Share card (off-screen, rendered to PNG) ── */
 
 #share-card {
+  --sc-color: #c084fc;
+  --sc-rgb: 192, 132, 252;
   position: fixed;
   left: -99999px;
   top: 0;
   width: 540px;
-  background: #0c0c0c;
+  height: 675px;
+  background:
+    radial-gradient(circle at top right, rgba(var(--sc-rgb), 0.30), transparent 34%),
+    radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.08), transparent 28%),
+    linear-gradient(160deg, #121212 0%, #080808 100%);
   color: #ededed;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  padding: 48px 44px 36px;
+  padding: 18px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-.sc-top {
+.sc-shell {
+  position: relative;
+  height: 100%;
+  padding: 28px 28px 24px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.015));
+  overflow: hidden;
+}
+
+.sc-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 88px 88px;
+  opacity: 0.16;
+}
+
+.sc-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
 }
 
 .sc-app {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #5a5a5a;
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .sc-dot {
-  color: #c084fc;
+  color: var(--sc-color);
 }
 
-.sc-urge {
+.sc-case {
+  padding: 7px 12px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--sc-rgb), 0.42);
+  background: rgba(var(--sc-rgb), 0.10);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sc-watermark {
+  position: absolute;
+  right: 24px;
+  top: 82px;
+  z-index: 1;
+  max-width: 230px;
+  font-size: 5.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 0.88;
+  text-align: right;
+  text-transform: uppercase;
+  white-space: pre-line;
+  color: rgba(var(--sc-rgb), 0.15);
+}
+
+.sc-main {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 22px;
+  margin-top: 42px;
 }
 
-.sc-urge-label {
-  font-size: 0.6rem;
+.sc-confession {
+  max-width: 380px;
+  min-height: 170px;
+  font-size: 2.38rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #3a3a3a;
-}
-
-.sc-urge-text {
-  font-size: 0.82rem;
-  font-style: italic;
-  color: #666;
-  line-height: 1.5;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+  color: #f6f6f6;
   margin: 0;
 }
 
-.sc-verdict {
-  font-family: 'DM Serif Display', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 3.2rem;
-  letter-spacing: -0.025em;
-  line-height: 1;
-  color: var(--sc-color, #ededed);
-}
-
-.sc-divider {
-  height: 1px;
-  background: #1e1e1e;
-  margin-bottom: 22px;
-}
-
-.sc-meta-row {
-  display: flex;
-  gap: 40px;
-  margin-bottom: 24px;
-}
-
-.sc-meta-item {
+.sc-verdict-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.sc-meta-label {
-  font-size: 0.6rem;
+.sc-ruling {
+  font-size: 0.62rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #5a5a5a;
+  color: rgba(255, 255, 255, 0.54);
 }
 
-.sc-meta-value {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: #ededed;
+.sc-verdict {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 18px 13px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--sc-rgb), 0.55);
+  background: rgba(var(--sc-rgb), 0.12);
+  color: var(--sc-color);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
-.sc-why {
-  margin-bottom: 24px;
+.sc-diagnosis {
+  max-width: 360px;
+  font-size: 1.03rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+  margin: 0;
+}
+
+.sc-move {
+  max-width: 360px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .sc-label {
   display: block;
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #5a5a5a;
-  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.50);
+  margin-bottom: 9px;
 }
 
-.sc-why p {
-  font-size: 0.875rem;
-  line-height: 1.7;
-  color: #d0d0d0;
+.sc-move-text {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.42;
+  color: #f3f3f3;
   margin: 0;
 }
 
-.sc-quote {
-  background: #111;
-  border-left: 2px solid var(--sc-color, #ededed);
-  padding: 16px 20px;
-  margin-bottom: 32px;
-  border-radius: 0 6px 6px 0;
+.sc-closer-wrap {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  padding: 24px 24px 22px;
+  border-radius: 28px;
+  border: 1px solid rgba(var(--sc-rgb), 0.34);
+  background:
+    linear-gradient(180deg, rgba(var(--sc-rgb), 0.16), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.02);
 }
 
-.sc-quote p {
+.sc-closer {
   font-family: 'DM Serif Display', Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  font-size: 1.05rem;
-  line-height: 1.55;
-  color: #ededed;
+  font-size: 2.02rem;
+  line-height: 0.98;
+  color: #fdfdfd;
   margin: 0;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.035em;
 }
 
 .sc-footer {
-  font-size: 0.65rem;
-  color: #333;
-  letter-spacing: 0.06em;
-  text-align: right;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.sc-footer-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sc-chip-label {
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.46);
+}
+
+.sc-chip-value {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.90);
+}
+
+.sc-site {
+  margin-left: auto;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
 }
 
 
