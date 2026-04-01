@@ -4,6 +4,7 @@
   "description": "AI verdict engine for everyday human drama.",
   "scripts": {},
   "dependencies": {
-    "@anthropic-ai/sdk": "latest"
+    "@anthropic-ai/sdk": "latest",
+    "@vercel/analytics": "^2.0.1"
   }
 }
